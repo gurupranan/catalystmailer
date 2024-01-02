@@ -46,6 +46,8 @@ module.exports = (cronDetails, context) => {
 
 	
 	async function sendmymail(catalystApp, context){
+		const fs = require('fs');
+	
 		console.log("entered senmymail")
 		await get(dbRef).then( (snapshot) => {
 			console.log("Entered get")
@@ -59,21 +61,22 @@ module.exports = (cronDetails, context) => {
 			  //const childKey = childSnapshot.key;
 			  const childData = childSnapshot.val();
 			  console.log("after child snap")
-			  if (typeof childData === 'object' && 'name' in childData && 'email' in childData && 'birth' in childData) {
+			  if (typeof childData === 'object' && 'name' in childData && 'email' in childData && 'birth' in childData && 'senderemail' in childData) {
 				//data.push({ ...childData, id: childKey, sno: sno });
 				console.log("entered data validation")
 				console.log(childData.birth.slice(0,5));
 				if(childData.birth.slice(0,5) == dateWoYr){
 					console.log("some person bday")
 					//let email = catalystApp.email();
+					let age = date.slice(6 , 10) - childData.birth.slice(6, 10);
 					let config = { 
 						from_email: 'guruprasath.m@zohomail.in',
 						to_email: childData.email,
-						cc: childData.email,
 						bcc: 'bdaymailer@googlegroups.com',
-						reply_to: 'guruprasath.m@zohomail.in',
+						reply_to: childData.senderemail,
 						subject: 'Happy birthday!', 
-						content: "Hello,We're glad to welcome you at Zylker Corp. To begin your journey with us, please download the attached KYC form and fill in your details. You can send us the completed form to this same email address.We cannot wait to get started! Cheers! Team Zylker",
+						content: "nnnnHello,We're" + age + "glad to welcome you at Zylker Corp. To begin your journey with us, please download the attached KYC form and fill in your details. You can send us the completed form to this same email address.We cannot wait to get started! Cheers! Team Zylker",
+						attachments: [fs.createReadStream('img.jpg')]
 					};
 
 					console.log("abv thromail")
