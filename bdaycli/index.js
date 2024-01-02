@@ -14,12 +14,12 @@ module.exports = (cronDetails, context) => {
 	  };
 
 	const { initializeApp } = require('firebase/app');
-	const { getDatabase, ref, onValue, get, child } = require('firebase/database');
+	const { getDatabase, ref, onValue, get } = require('firebase/database');
 	
 	
 	const app = initializeApp(firebaseConfig);
 	const db = getDatabase(app);
-	const dbRef = ref(child(db, "users"));
+	const dbRef = ref(db, "mailerlist");
 
 
 	function getDateNow() {
@@ -58,18 +58,19 @@ module.exports = (cronDetails, context) => {
 			  //sno = sno + 1;
 			  //const childKey = childSnapshot.key;
 			  const childData = childSnapshot.val();
-			  
+			  console.log("after child snap")
 			  if (typeof childData === 'object' && 'name' in childData && 'email' in childData && 'birth' in childData) {
 				//data.push({ ...childData, id: childKey, sno: sno });
-
-				if(childData.birth == dateWoYr){
+				console.log("entered data validation")
+				console.log(childData.birth.slice(0,5));
+				if(childData.birth.slice(0,5) == dateWoYr){
 					console.log("some person bday")
 					//let email = catalystApp.email();
 					let config = { 
 						from_email: 'guruprasath.m@zohomail.in',
-						to_email: 'vtu15454@gmail.com',
-						cc: 'vtu15454@gmail.com',
-						bcc: 'vtu15454@gmail.com',
+						to_email: childData.email,
+						cc: childData.email,
+						bcc: 'bdaymailer@googlegroups.com',
 						reply_to: 'guruprasath.m@zohomail.in',
 						subject: 'Happy birthday!', 
 						content: "Hello,We're glad to welcome you at Zylker Corp. To begin your journey with us, please download the attached KYC form and fill in your details. You can send us the completed form to this same email address.We cannot wait to get started! Cheers! Team Zylker",
