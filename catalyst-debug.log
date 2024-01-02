@@ -1,0 +1,268 @@
+[debug] [2024-01-02T13:36:34.434Z] : 
+[debug] [2024-01-02T13:36:34.435Z] : ----------------------------------------------------------------------
+[debug] [2024-01-02T13:36:34.435Z] : Command:      C:\Program Files\nodejs\node.exe E:\server-WIP\server\node_modules\zcatalyst-cli\lib\bin\catalyst.js functions:shell
+[debug] [2024-01-02T13:36:34.435Z] : CLI Version:  1.17.2
+[debug] [2024-01-02T13:36:34.436Z] : Platform:     win32
+[debug] [2024-01-02T13:36:34.436Z] : Node Version: v20.10.0
+[debug] [2024-01-02T13:36:34.436Z] : Time:         Tue Jan 02 2024 19:06:34 GMT+0530 (India Standard Time)
+[debug] [2024-01-02T13:36:34.436Z] : ----------------------------------------------------------------------
+[debug] [2024-01-02T13:36:34.436Z] : 
+[debug] [2024-01-02T13:36:34.860Z] : > authorizing via signed-in user option
+[debug] [2024-01-02T13:36:34.860Z] : > command requires scopes: ["ZohoCatalyst.projects.ALL","ZohoCatalyst.functions.ALL","ZohoCatalyst.functions.EXECUTE"]
+[debug] [2024-01-02T13:36:34.868Z] : >>>> HTTP REQUEST : GET https://api.catalyst.zoho.in/baas/v1/project/4348000000005015 
+
+[debug] [2024-01-02T13:36:35.267Z] : <<<< HTTP RESPONSE : 200
+Response Headers: {"server":"ZGS","date":"Tue, 02 Jan 2024 13:36:37 GMT","content-type":"application/vnd.catalyst.v2+json","transfer-encoding":"chunked","connection":"keep-alive","set-cookie":["3a750b85f1=99131cfabfda186b4fe68a16fb8fedd6; Path=/","ZD_CSRF_TOKEN=f7de5e58-187a-4523-b5fa-95421243da1c;path=/;SameSite=None;Secure;priority=high","_zcsr_tmp=f7de5e58-187a-4523-b5fa-95421243da1c;path=/;SameSite=Strict;Secure;priority=high"],"x-content-type-options":"nosniff","x-xss-protection":"1","cache-control":"private,no-cache,no-store,max-age=0,must-revalidate","pragma":"no-cache","expires":"Thu, 01 Jan 1970 00:00:00 GMT","x-frame-options":"DENY","strict-transport-security":"max-age=63072000"}
+
+[debug] [2024-01-02T13:36:35.270Z] : >>>> HTTP REQUEST : GET https://api.catalyst.zoho.in/baas/v1/project/4348000000005015/environment 
+
+[debug] [2024-01-02T13:36:35.547Z] : <<<< HTTP RESPONSE : 200
+Response Headers: {"server":"ZGS","date":"Tue, 02 Jan 2024 13:36:37 GMT","content-type":"application/vnd.catalyst.v2+json","transfer-encoding":"chunked","connection":"keep-alive","set-cookie":["3a750b85f1=7c58023b2365c117e2ff9b6feb09efa2; Path=/","ZD_CSRF_TOKEN=b1a0357e-afb1-42c1-9703-0150d0d9f382;path=/;SameSite=None;Secure;priority=high","_zcsr_tmp=b1a0357e-afb1-42c1-9703-0150d0d9f382;path=/;SameSite=Strict;Secure;priority=high"],"x-content-type-options":"nosniff","x-xss-protection":"1","cache-control":"private,no-cache,no-store,max-age=0,must-revalidate","pragma":"no-cache","expires":"Thu, 01 Jan 1970 00:00:00 GMT","x-frame-options":"DENY","strict-transport-security":"max-age=63072000"}
+
+[debug] [2024-01-02T13:36:35.647Z] : >>>> HTTP REQUEST : GET https://api.catalyst.zoho.in/baas/v1/project/4348000000005015/function 
+Query params: {"type":"basicio,event,cron,applogic,integration,browser_logic"}
+
+[debug] [2024-01-02T13:36:35.769Z] : <<<< HTTP RESPONSE : 200
+Response Headers: {"server":"ZGS","date":"Tue, 02 Jan 2024 13:36:37 GMT","content-type":"application/vnd.catalyst.v2+json","transfer-encoding":"chunked","connection":"keep-alive","set-cookie":["3a750b85f1=99131cfabfda186b4fe68a16fb8fedd6; Path=/","ZD_CSRF_TOKEN=56014603-103c-4865-8aa3-7b0f339345f0;path=/;SameSite=None;Secure;priority=high","_zcsr_tmp=56014603-103c-4865-8aa3-7b0f339345f0;path=/;SameSite=Strict;Secure;priority=high"],"x-content-type-options":"nosniff","x-xss-protection":"1","cache-control":"private,no-cache,no-store,max-age=0,must-revalidate","pragma":"no-cache","expires":"Thu, 01 Jan 1970 00:00:00 GMT","x-frame-options":"DENY","strict-transport-security":"max-age=63072000"}
+
+[debug] [2024-01-02T13:36:35.771Z] : unknown eol undefined hence skipping check
+[info] [2024-01-02T13:36:41.760Z] : above sendmymail
+
+[info] [2024-01-02T13:36:41.761Z] : entered senmymail
+below sendmymail
+
+[info] [2024-01-02T13:36:42.862Z] : Entered get
+02-01
+
+[info] [2024-01-02T13:36:42.863Z] : entered foreach
+after child snap
+entered data validation
+02-01
+some person bday
+abv thromail
+entered thromail
+
+[info] [2024-01-02T13:36:42.870Z] : blw thromail
+
+[info] [2024-01-02T13:36:42.872Z] : mguru2020@gmail.com status
+entered foreach
+after child snap
+entered data validation
+02-01
+some person bday
+abv thromail
+entered thromail
+blw thromail
+vtu13633@veltech.edu.in status
+entered foreach
+after child snap
+entered data validation
+02-01
+some person bday
+abv thromail
+entered thromail
+blw thromail
+vtu15454@veltech.edu.in status
+entered foreach
+after child snap
+entered data validation
+02-01
+some person bday
+abv thromail
+entered thromail
+blw thromail
+vtu15454@gmail.com status
+
+[info] [2024-01-02T13:37:02.569Z] : {
+  isAsync: false,
+  project_details: {
+    project_name: 'Project-Rainfall',
+    id: '4348000000005015',
+    project_type: 'Live'
+  },
+  display_name: 'Guru',
+  from_email: 'guruprasath.m@zohomail.in',
+  to_email: 'vtu15454@gmail.com',
+  bcc: [ 'bdaymailer@googlegroups.com' ],
+  html_mode: false,
+  subject: 'Happy birthday!',
+  content: "nnnnHello,We're22glad to welcome you at Zylker Corp. To begin your journey with us, please download the attached KYC form and fill in your details. You can send us the completed form to this same email address.We cannot wait to get started! Cheers! Team Zylker",
+  reply_to: [ 'vtu15454@gmail.com' ]
+} success
+
+[info] [2024-01-02T13:37:05.881Z] : {
+  isAsync: false,
+  project_details: {
+    project_name: 'Project-Rainfall',
+    id: '4348000000005015',
+    project_type: 'Live'
+  },
+  display_name: 'Guru',
+  from_email: 'guruprasath.m@zohomail.in',
+  to_email: 'mguru2020@gmail.com',
+  bcc: [ 'bdaymailer@googlegroups.com' ],
+  html_mode: false,
+  subject: 'Happy birthday!',
+  content: "nnnnHello,We're0glad to welcome you at Zylker Corp. To begin your journey with us, please download the attached KYC form and fill in your details. You can send us the completed form to this same email address.We cannot wait to get started! Cheers! Team Zylker",
+  reply_to: [ 'test@test.com' ]
+} success
+
+[info] [2024-01-02T13:37:07.622Z] : {
+  isAsync: false,
+  project_details: {
+    project_name: 'Project-Rainfall',
+    id: '4348000000005015',
+    project_type: 'Live'
+  },
+  display_name: 'Guru',
+  from_email: 'guruprasath.m@zohomail.in',
+  to_email: 'vtu15454@veltech.edu.in',
+  bcc: [ 'bdaymailer@googlegroups.com' ],
+  html_mode: false,
+  subject: 'Happy birthday!',
+  content: "nnnnHello,We're0glad to welcome you at Zylker Corp. To begin your journey with us, please download the attached KYC form and fill in your details. You can send us the completed form to this same email address.We cannot wait to get started! Cheers! Team Zylker",
+  reply_to: [ 'buhari@buh.com' ]
+} success
+
+[info] [2024-01-02T13:37:08.767Z] : {
+  isAsync: false,
+  project_details: {
+    project_name: 'Project-Rainfall',
+    id: '4348000000005015',
+    project_type: 'Live'
+  },
+  display_name: 'Guru',
+  from_email: 'guruprasath.m@zohomail.in',
+  to_email: 'vtu13633@veltech.edu.in',
+  bcc: [ 'bdaymailer@googlegroups.com' ],
+  html_mode: false,
+  subject: 'Happy birthday!',
+  content: "nnnnHello,We're24glad to welcome you at Zylker Corp. To begin your journey with us, please download the attached KYC form and fill in your details. You can send us the completed form to this same email address.We cannot wait to get started! Cheers! Team Zylker",
+  reply_to: [ 'test@test.com' ]
+} success
+
+[info] [2024-01-02T13:37:32.890Z] : [cli] Function execution complete
+[info] [2024-01-02T13:37:32.891Z] : 
+[info] [2024-01-02T13:37:32.893Z] : [status]
+[info] [2024-01-02T13:37:32.893Z] : SUCCESS
+[info] [2024-01-02T13:49:53.128Z] : above sendmymail
+
+[info] [2024-01-02T13:49:53.129Z] : entered senmymail
+
+[info] [2024-01-02T13:49:53.130Z] : below sendmymail
+
+[info] [2024-01-02T13:49:54.239Z] : Entered get
+
+[info] [2024-01-02T13:49:54.241Z] : 02-01
+entered foreach
+after child snap
+entered data validation
+02-01
+some person bday
+abv thromail
+entered thromail
+
+[info] [2024-01-02T13:49:54.248Z] : blw thromail
+
+[info] [2024-01-02T13:49:54.249Z] : mguru2020@gmail.com status
+entered foreach
+after child snap
+entered data validation
+02-01
+some person bday
+abv thromail
+entered thromail
+blw thromail
+vtu13633@veltech.edu.in status
+entered foreach
+after child snap
+entered data validation
+02-01
+some person bday
+abv thromail
+entered thromail
+blw thromail
+vtu15454@veltech.edu.in status
+entered foreach
+after child snap
+entered data validation
+02-01
+some person bday
+
+[info] [2024-01-02T13:49:54.250Z] : abv thromail
+entered thromail
+blw thromail
+vtu15454@gmail.com status
+
+[info] [2024-01-02T13:50:21.273Z] : {
+  isAsync: false,
+  project_details: {
+    project_name: 'Project-Rainfall',
+    id: '4348000000005015',
+    project_type: 'Live'
+  },
+  display_name: 'Guru',
+  from_email: 'guruprasath.m@zohomail.in',
+  to_email: 'vtu13633@veltech.edu.in',
+  bcc: [ 'bdaymailer@googlegroups.com' ],
+  html_mode: false,
+  subject: '🎉 Happy Birthdayabhishek! 🎂',
+  content: "Dear abhishek, Wishing you a day filled with wows, a year full of mesmerizing moments, and a life that continues to be wonderfully attractive! 🌟 Happy 24! 🎈 May this special day be as creative and colorful as you are. Here's to celebrating you in the most eye-catching way possible! Cheers to another year of joy, laughter, and all things wonderful!",
+  reply_to: [ 'test@test.com' ]
+} success
+
+[info] [2024-01-02T13:50:22.672Z] : {
+  isAsync: false,
+  project_details: {
+    project_name: 'Project-Rainfall',
+    id: '4348000000005015',
+    project_type: 'Live'
+  },
+  display_name: 'Guru',
+  from_email: 'guruprasath.m@zohomail.in',
+  to_email: 'vtu15454@veltech.edu.in',
+  bcc: [ 'bdaymailer@googlegroups.com' ],
+  html_mode: false,
+  subject: '🎉 Happy Birthdaysath! 🎂',
+  content: "Dear sath, Wishing you a day filled with wows, a year full of mesmerizing moments, and a life that continues to be wonderfully attractive! 🌟 Happy 0! 🎈 May this special day be as creative and colorful as you are. Here's to celebrating you in the most eye-catching way possible! Cheers to another year of joy, laughter, and all things wonderful!",
+  reply_to: [ 'buhari@buh.com' ]
+} success
+
+[info] [2024-01-02T13:50:24.896Z] : {
+  isAsync: false,
+  project_details: {
+    project_name: 'Project-Rainfall',
+    id: '4348000000005015',
+    project_type: 'Live'
+  },
+  display_name: 'Guru',
+  from_email: 'guruprasath.m@zohomail.in',
+  to_email: 'mguru2020@gmail.com',
+  bcc: [ 'bdaymailer@googlegroups.com' ],
+  html_mode: false,
+  subject: '🎉 Happy Birthdayguru! 🎂',
+  content: "Dear guru, Wishing you a day filled with wows, a year full of mesmerizing moments, and a life that continues to be wonderfully attractive! 🌟 Happy 0! 🎈 May this special day be as creative and colorful as you are. Here's to celebrating you in the most eye-catching way possible! Cheers to another year of joy, laughter, and all things wonderful!",
+  reply_to: [ 'test@test.com' ]
+} success
+
+[info] [2024-01-02T13:50:24.906Z] : {
+  isAsync: false,
+  project_details: {
+    project_name: 'Project-Rainfall',
+    id: '4348000000005015',
+    project_type: 'Live'
+  },
+  display_name: 'Guru',
+  from_email: 'guruprasath.m@zohomail.in',
+  to_email: 'vtu15454@gmail.com',
+  bcc: [ 'bdaymailer@googlegroups.com' ],
+  html_mode: false,
+  subject: '🎉 Happy Birthdaygurume! 🎂',
+  content: "Dear gurume, Wishing you a day filled with wows, a year full of mesmerizing moments, and a life that continues to be wonderfully attractive! 🌟 Happy 22! 🎈 May this special day be as creative and colorful as you are. Here's to celebrating you in the most eye-catching way possible! Cheers to another year of joy, laughter, and all things wonderful!",
+  reply_to: [ 'vtu15454@gmail.com' ]
+} success
+
+[info] [2024-01-02T13:50:44.262Z] : [cli] Function execution complete
+[info] [2024-01-02T13:50:44.262Z] : 
+[info] [2024-01-02T13:50:44.264Z] : [status]
+[info] [2024-01-02T13:50:44.264Z] : SUCCESS

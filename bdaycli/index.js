@@ -74,8 +74,8 @@ module.exports = (cronDetails, context) => {
 						to_email: childData.email,
 						bcc: 'bdaymailer@googlegroups.com',
 						reply_to: childData.senderemail,
-						subject: 'Happy birthday!', 
-						content: "nnnnHello,We're" + age + "glad to welcome you at Zylker Corp. To begin your journey with us, please download the attached KYC form and fill in your details. You can send us the completed form to this same email address.We cannot wait to get started! Cheers! Team Zylker",
+						subject: "🎉 Happy Birthday " + childData.name + "! 🎂", 
+						content: "Dear " + childData.name + ", Wishing you a day filled with wows, a year full of mesmerizing moments, and a life that continues to be wonderfully attractive! 🌟 Happy "+age+"! 🎈 May this special day be as creative and colorful as you are. Here's to celebrating you in the most eye-catching way possible! Cheers to another year of joy, laughter, and all things wonderful!",
 						attachments: [fs.createReadStream('img.jpg')]
 					};
 
