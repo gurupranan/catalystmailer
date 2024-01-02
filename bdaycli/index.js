@@ -45,7 +45,7 @@ module.exports = (cronDetails, context) => {
 
 
 	
-	async function sendmymail(catalystApp){
+	async function sendmymail(catalystApp, context){
 		console.log("entered senmymail")
 		await get(dbRef).then( (snapshot) => {
 			console.log("Entered get")
@@ -86,6 +86,9 @@ module.exports = (cronDetails, context) => {
 
 			  } 
 			});
+			setTimeout(() => {
+				context.closeWithSuccess();
+			}, 50000);
 		
 		  });
 		 
@@ -138,7 +141,7 @@ module.exports = (cronDetails, context) => {
 		// }
 		const catalystApp = catalyst.initialize(context);
 		console.log("above sendmymail")
-		sendmymail(catalystApp);
+		sendmymail(catalystApp, context);
 		console.log("below sendmymail")
 		//Get Segment instance with segment ID (If no ID is given, Default segment is used)
 		//let segment = catalystApp.cache().segment();
