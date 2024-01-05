@@ -16,9 +16,8 @@ module.exports = (cronDetails, context) => {
 	const { initializeApp } = require('firebase/app');
 	const { getDatabase, ref, get } = require('firebase/database');
 	const OpenAI = require('openai');
-	const apikey = "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";
 	const openai = new OpenAI({
-		apiKey: apikey
+		apiKey: process.env.OPENAI_API_KEY
 	});
 	
 	
