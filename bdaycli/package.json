@@ -5,6 +5,7 @@
 	"author": "guru",
 	"dependencies": {
 		"firebase": "^10.7.1",
-		"zcatalyst-sdk-node": "2.2.1"
+		"zcatalyst-sdk-node": "2.2.1",
+		"openai": "^4.0.0"
 	}
 }

@@ -14,13 +14,20 @@ module.exports = (cronDetails, context) => {
 	  };
 
 	const { initializeApp } = require('firebase/app');
-	const { getDatabase, ref, onValue, get } = require('firebase/database');
+	const { getDatabase, ref, get } = require('firebase/database');
+	const OpenAI = require('openai');
+	const apikey = "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";
+	const openai = new OpenAI({
+		apiKey: apikey
+	});
 	
 	
+
+	
+
 	const app = initializeApp(firebaseConfig);
 	const db = getDatabase(app);
 	const dbRef = ref(db, "mailerlist");
-
 
 	function getDateNow() {
 		const currentDate = new Date();
@@ -44,51 +51,108 @@ module.exports = (cronDetails, context) => {
 	}
 
 
+	async function wishGenerate(age){
+		const chatCompletion = await openai.chat.completions.create({
+			messages: [{ role: "user", content: "write a attractive-eyecatching-bdaywishpoem for "+ age +"yearold. Atlast Greetings for completing the age. Give this in single paragraph no line break" }],
+			model: "gpt-3.5-turbo-1106",
+		});
+		
+		console.log(chatCompletion);
+		
+
+		
+		// setTimeout(() => {
+		// 	console.log("5sec");
+		// }, 5000);
+
+		// if(chatCompletion == null){
+		// 	setTimeout(() => {
+		// 		console.log("10sec");
+		// 	}, 5000);
+		// }
+		// if(chatCompletion == null){
+		// 	setTimeout(() => {
+		// 		console.log("20sec");
+		// 	}, 10000);
+		// }
+		// if(chatCompletion == null){
+		// 	setTimeout(() => {
+		// 		console.log("30sec");
+		// 	}, 10000);
+		// }
+
+		
+		console.log(chatCompletion.choices[0].message.content);
+		return chatCompletion.choices[0].message.content;
+		
+	}
+
 	
 	async function sendmymail(catalystApp, context){
+		
+
+
 		const fs = require('fs');
-	
+
 		console.log("entered senmymail")
-		await get(dbRef).then( (snapshot) => {
+		await get(dbRef).then((snapshot) => {
 			console.log("Entered get")
 			//const data = [];
 			const date = getDateNow();
 			const dateWoYr = date.slice(0, 5);
 			console.log(dateWoYr);
 			snapshot.forEach((childSnapshot) => {
-				console.log("entered foreach")
-			  //sno = sno + 1;
-			  //const childKey = childSnapshot.key;
+			console.log("entered foreach")
 			  const childData = childSnapshot.val();
 			  console.log("after child snap")
 			  if (typeof childData === 'object' && 'name' in childData && 'email' in childData && 'birth' in childData && 'senderemail' in childData) {
 				//data.push({ ...childData, id: childKey, sno: sno });
 				console.log("entered data validation")
 				console.log(childData.birth.slice(0,5));
+
+
 				if(childData.birth.slice(0,5) == dateWoYr){
 					console.log("some person bday")
 					//let email = catalystApp.email();
 					let age = date.slice(6 , 10) - childData.birth.slice(6, 10);
-					let config = { 
-						from_email: 'guruprasath.m@zohomail.in',
-						to_email: childData.email,
-						bcc: 'bdaymailer@googlegroups.com',
-						reply_to: childData.senderemail,
-						subject: "🎉 Happy Birthday " + childData.name + "! 🎂", 
-						content: "Dear " + childData.name + ", Wishing you a day filled with wows, a year full of mesmerizing moments, and a life that continues to be wonderfully attractive! 🌟 Happy "+age+"! 🎈 May this special day be as creative and colorful as you are. Here's to celebrating you in the most eye-catching way possible! Cheers to another year of joy, laughter, and all things wonderful!",
-						attachments: [fs.createReadStream('img.jpg')]
-					};
 
-					console.log("abv thromail")
-					let mailPromise = thromail(config, catalystApp);
-					console.log("blw thromail")
-					console.log(childData.email, "status");
-					mailPromise.then((m)=>{console.log(m, "success");}).catch((e)=>{console.log(e, "errorpromise")})
+
+					console.log(age, "agethisis");
+					let name = childData.name.charAt(0).toUpperCase() + childData.name.slice(1);
+					//chatgpt for gen bday wish
+
+
+					wishGenerate(age).then((wishpoem) =>{
+						let config = { 
+							from_email: 'guruprasath.m@zohomail.in',
+							to_email: childData.email,
+							bcc: 'bdaymailer@googlegroups.com',
+							reply_to: childData.senderemail,
+							subject: "🎉 Happy Birthday " + name + "! 🎂", 
+							content: "Dear " + name + ", " + wishpoem,
+							attachments: [fs.createReadStream('img.jpg')]
+						};
+	
+						console.log("abv thromail")
+						let mailPromise = thromail(config, catalystApp);
+						console.log("blw thromail")
+						console.log(childData.email, "status");
+						mailPromise.then((m)=>{console.log(m, "success");}).catch((e)=>{console.log(e, "errorpromise")})
+
+					} )
+				
+
+
 				}
+				else{console.log("nobday");}
 
 
 			  } 
-			});
+			  
+
+			}
+
+			);
 			setTimeout(() => {
 				context.closeWithSuccess();
 			}, 50000);
@@ -96,34 +160,8 @@ module.exports = (cronDetails, context) => {
 		  });
 		 
 		 
-		 /*
-		 {
-			console.log("testtt");
-			let dateN = getDateNow();
-			dateN = dateN.substr(0, 5);
-			 snapshot.forEach((childSnapshot) => {
-				   const childKey = childSnapshot.key;
-				   const data = childSnapshot.val();
-		   if(data.date.substr(0,5) === dateN || true){
-	
-	
-		let email = catalystApp.email();
-		let config = { 
-		from_email: 'guruprasath.m@zohomail.in',
-		to_email: 'vtu15454@gmail.com',
-		cc: 'vtu15454@gmail.com',
-		bcc: 'vtu15454@gmail.com',
-	 reply_to: 'guruprasath.m@zohomail.in',
-		subject: 'Happy birthday!', 
-		content: "Hello,We're glad to welcome you at Zylker Corp. To begin your journey with us, please download the attached KYC form and fill in your details. You can send us the completed form to this same email address.We cannot wait to get started! Cheers! Team Zylker",
-		 };
-		 let mailPromise = email.sendMail(config);
-		 mailPromise.then((m)=>{console.log(m, "msfpromf");}).catch((e)=>{console.log(e, "errorpromise")})
-	
-		 console.log(JSON.stringify(mailPromise), "mailprccomise");
-	}});}*/
-	
-	
+
+
 	
 }
 			 
