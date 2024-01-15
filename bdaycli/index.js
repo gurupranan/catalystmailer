@@ -1,202 +1,154 @@
-module.exports = (cronDetails, context) => {
-	
+module.exports = async (cronDetails, context) => {
 	const catalyst = require('zcatalyst-sdk-node');
+	const admin = require("firebase-admin");
+	const serviceAccount = require("./svckey.json");
+	admin.initializeApp({
+		credential: admin.credential.cert(serviceAccount),
+		databaseURL: "https://bday-mailer-62c96-default-rtdb.firebaseio.com"
+	});
 
-	const firebaseConfig = {
-		apiKey: "AIzaSyD27EFMpChpPEoTdwoN61TOzm9aU39K7f0",
-		authDomain: "bday-mailer-62c96.firebaseapp.com",
-		databaseURL: "https://bday-mailer-62c96-default-rtdb.firebaseio.com",
-		projectId: "bday-mailer-62c96",
-		storageBucket: "bday-mailer-62c96.appspot.com",
-		messagingSenderId: "767480013407",
-		appId: "1:767480013407:web:201a8d7b38a0f7c4c971ea",
-		measurementId: "G-YSG0R407MB"
-	  };
+	var db = admin.database();
+	var dbRef = db.ref("users");
 
-	const { initializeApp } = require('firebase/app');
-	const { getDatabase, ref, get } = require('firebase/database');
 	const OpenAI = require('openai');
 	const openai = new OpenAI({
 		apiKey: process.env.OPENAI_API_KEY
 	});
 	
-	
 
-	
+	const axios = require('axios');
+	const fs = require('fs');
+	const path = require('path');
 
-	const app = initializeApp(firebaseConfig);
-	const db = getDatabase(app);
-	const dbRef = ref(db, "mailerlist");
+	var flag;
 
 	function getDateNow() {
 		const currentDate = new Date();
-	  
 		const day = String(currentDate.getDate()).padStart(2, '0');
-		const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+		const month = String(currentDate.getMonth() + 1).padStart(2, '0');
 		const year = currentDate.getFullYear();
-	  
 		const formattedDate = `${day}-${month}-${year}`;
-	  
 		return formattedDate;
-	  }
+	}
 
-
-
-	async function thromail(config, catalystApp){
-		console.log("entered thromail")
+	async function thromail(config, catalystApp) {
+		console.log("entered thromail");
 		let email = catalystApp.email();
-		let mailPromise = await email.sendMail(config);
-		return mailPromise;
+		return await email.sendMail(config);
 	}
 
-
-	async function wishGenerate(age){
-		const chatCompletion = await openai.chat.completions.create({
-			messages: [{ role: "user", content: "write a attractive-eyecatching-bdaywishpoem for "+ age +"yearold. Atlast Greetings for completing the age. Give this in single paragraph no line break" }],
-			model: "gpt-3.5-turbo-1106",
-		});
-		
-		console.log(chatCompletion);
-		
-
-		
-		// setTimeout(() => {
-		// 	console.log("5sec");
-		// }, 5000);
-
-		// if(chatCompletion == null){
-		// 	setTimeout(() => {
-		// 		console.log("10sec");
-		// 	}, 5000);
-		// }
-		// if(chatCompletion == null){
-		// 	setTimeout(() => {
-		// 		console.log("20sec");
-		// 	}, 10000);
-		// }
-		// if(chatCompletion == null){
-		// 	setTimeout(() => {
-		// 		console.log("30sec");
-		// 	}, 10000);
-		// }
-
-		
-		console.log(chatCompletion.choices[0].message.content);
-		return chatCompletion.choices[0].message.content;
-		
+	async function wishGenerate(age) {
+		try {
+			const chatCompletion = await openai.chat.completions.create({
+				messages: [{ role: "user", content: "write a attractive-eyecatching-bdaywishpoem for " + age + "yearold. Atlast Greetings for completing the age. Give this in single paragraph no line break" }],
+				model: "gpt-3.5-turbo-1106",
+			});
+			console.log(chatCompletion);
+			console.log(chatCompletion.choices[0].message.content);
+			return chatCompletion.choices[0].message.content;
+		} catch (error) {
+			console.error('Error generating wish:', error.message);
+			return "Happy Birthday! May your day be filled with joy, laughter, and unforgettable moments. As you celebrate another year of life, may it bring you success, good health, and endless happiness. Cheers to the incredible person you are and to the wonderful journey ahead. Wishing you a fantastic birthday and an amazing year ahead. Happy "+age+"!";
+		}
 	}
 
-	
-	async function sendmymail(catalystApp, context){
-		
+	async function downloadImage(url, tempDir) {
+		try {
+			const response = await axios.get(url, { responseType: 'arraybuffer' });
+			const fileBuffer = Buffer.from(response.data);
+			const tempFilePath = path.join(tempDir, 'image.jpg');
+			fs.writeFileSync(tempFilePath, fileBuffer);
+			return tempFilePath;
+		} catch (error) {
+			console.error('Error downloading image:', error.message);
+		}
+	}
 
+	async function sendmymail(catalystApp, context) {
+		var img;
 
 		const fs = require('fs');
-
-		console.log("entered senmymail")
-		await get(dbRef).then((snapshot) => {
-			console.log("Entered get")
-			//const data = [];
+		console.log("entered senmymail");
+		try {
+			const snapshot = await dbRef.once("value");
 			const date = getDateNow();
 			const dateWoYr = date.slice(0, 5);
-			console.log(dateWoYr);
-			snapshot.forEach((childSnapshot) => {
-			console.log("entered foreach")
-			  const childData = childSnapshot.val();
-			  console.log("after child snap")
-			  if (typeof childData === 'object' && 'name' in childData && 'email' in childData && 'birth' in childData && 'senderemail' in childData) {
-				//data.push({ ...childData, id: childKey, sno: sno });
-				console.log("entered data validation")
-				console.log(childData.birth.slice(0,5));
 
+			for (const uid of Object.keys(snapshot.val())) {
+				const childSnap = snapshot.val()[uid];
 
-				if(childData.birth.slice(0,5) == dateWoYr){
-					console.log("some person bday")
-					//let email = catalystApp.email();
-					let age = date.slice(6 , 10) - childData.birth.slice(6, 10);
+				for (const dumid of Object.keys(childSnap)) {
+					const relativeList = childSnap[dumid];
 
+					if (typeof relativeList === 'object' && 'name' in relativeList && 'email' in relativeList && 'birth' in relativeList) {
+						if (relativeList.birth.slice(0, 5) == dateWoYr) {
+							console.log("some person bday");
+							let age = date.slice(6, 10) - relativeList.birth.slice(6, 10);
+							console.log(age, "agethisis");
+							let name = relativeList.name.charAt(0).toUpperCase() + relativeList.name.slice(1);
 
-					console.log(age, "agethisis");
-					let name = childData.name.charAt(0).toUpperCase() + childData.name.slice(1);
-					//chatgpt for gen bday wish
+							if ('url' in relativeList) {
+								const tempDir = require('os').tmpdir();
+								await downloadImage(relativeList.url, tempDir)
+									.then((tempFilePath) => {
+										img = fs.createReadStream(tempFilePath);
+									})
+									.catch((error) => {
+										console.error('Error:', error.message);
+									});
+							} else {
+								img = fs.createReadStream('img.jpg');
+							}
 
+							await wishGenerate(age).then(async (wishpoem) => {
+								console.log("entered mail config");
+								let config = {
+									from_email: 'guruprasath.m@zohomail.in',
+									to_email: relativeList.email,
+									bcc: 'bdaymailer@googlegroups.com',
+									reply_to: childSnap.email,
+									subject: "🎉 Happy Birthday " + name + "! 🎂",
+									content: "Dear " + name + ",\n" + wishpoem,
+									attachments: [img]
+								};
 
-					wishGenerate(age).then((wishpoem) =>{
-						let config = { 
-							from_email: 'guruprasath.m@zohomail.in',
-							to_email: childData.email,
-							bcc: 'bdaymailer@googlegroups.com',
-							reply_to: childData.senderemail,
-							subject: "🎉 Happy Birthday " + name + "! 🎂", 
-							content: "Dear " + name + ", " + wishpoem,
-							attachments: [fs.createReadStream('img.jpg')]
-						};
-	
-						console.log("abv thromail")
-						let mailPromise = thromail(config, catalystApp);
-						console.log("blw thromail")
-						console.log(childData.email, "status");
-						mailPromise.then((m)=>{console.log(m, "success");}).catch((e)=>{console.log(e, "errorpromise")})
-
-					} )
-				
-
-
+								console.log("abv thromail");
+								await thromail(config, catalystApp).then(async (m) => {
+									const histRef = db.ref(`users/${uid}/${dumid}`);
+									await histRef.update({
+										lastupdated: date
+									});
+									console.log(m, "success");
+								}).catch((e) => {
+									flag = "fail";
+									console.log(e, "errorpromise");
+								});
+								console.log("blw thromail");
+								console.log(relativeList.email, "status");
+							});
+						} else {
+							console.log("nobday");
+						}
+					}
 				}
-				else{console.log("nobday");}
-
-
-			  } 
-			  
-
 			}
 
-			);
-			setTimeout(() => {
-				context.closeWithSuccess();
-			}, 50000);
-		
-		  });
-		 
-		 
+			//setTimeout(() => {
 
-
-	
-}
-			 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-		// let cronParams = cronDetails.getCronParam("name");
-		// if(typeof cronParams === 'undefined'){
-		// 	cronParams = 'DefaultName';
-		// }
-		const catalystApp = catalyst.initialize(context);
-		console.log("above sendmymail")
-		sendmymail(catalystApp, context);
-		console.log("below sendmymail")
-		//Get Segment instance with segment ID (If no ID is given, Default segment is used)
-		//let segment = catalystApp.cache().segment();
-		//Insert Cache using put by passing the key-value pair.
-		// segment.put("Name", cronParams.toString())
-		// 	.then((cache) => {
-		// 		console.log("\nInserted Cache : " + JSON.stringify(cache));
-		// 		segment.get("Name").then((result) => {
-		// 			console.log("Got value : " + result);
-		// 			context.closeWithSuccess();
-		// 		});
-		// 	})
-		// 	.catch((err) => {
-		// 		console.log(err);
-		// 		context.closeWithFailure();
-		// 	});
-	
+			//}, 5 * 60 * 1000);
+		} catch (error) {
+			console.error('Error in sendmymail:', error.message);
+			context.closeWithFailure();
+		}
 	}
+
+	const catalystApp = catalyst.initialize(context);
+	console.log("above sendmymail");
+	await sendmymail(catalystApp, context);
+	if (flag === "fail") {
+		context.closeWithFailure();
+	} else {
+		context.closeWithSuccess();
+	}
+	console.log("below sendmymail");
+};
